@@ -1,0 +1,109 @@
+@import 'tailwindcss';
+
+/* ブランドカラー。用途(操作要素/強調/本文等)を跨いで使われるため、用途名ではなくブランド名でトークン化する。 */
+@theme {
+  --color-brand-orange: #ff9933;
+  --color-brand-navy: #003366;
+}
+
+/*
+ * 独自クラスはTailwindが宣言するレイヤー順序(theme, base, components, utilities)の
+ * componentsに明示的に属させる。レイヤーに属さない生CSSは常に最優先になってしまい、
+ * 個別要素をutilitiesクラスで一時的に上書きしたい場面で効かなくなるため、この位置づけを崩さないこと。
+ */
+@layer components {
+  /* App(appを唯一のブロックとし、内部のレイアウト領域は要素としてapp__で統一する) */
+  .app__viewport {
+    @apply flex h-dvh w-screen items-center justify-center overflow-hidden bg-white;
+  }
+
+  .app__canvas {
+    @apply flex shrink-0 flex-col gap-4 bg-white p-4;
+    width: var(--design-width, 1920px);
+    height: var(--design-height, 1200px);
+    transform: scale(var(--scale, 1));
+  }
+
+  .app__footer {
+    @apply flex h-24 shrink-0 items-center justify-center border-t border-gray-200;
+  }
+
+  .app__logo {
+    @apply h-14 w-auto;
+  }
+
+  .app__roulette-section {
+    @apply relative flex min-h-[520px] shrink-0 items-center justify-center rounded-xl bg-gray-100 px-8 py-6;
+  }
+
+  .app__roulette-content {
+    @apply flex flex-col items-center gap-6;
+  }
+
+  .app__roulette-badge {
+    @apply rounded border-2 border-brand-orange px-4 py-1 text-xl font-bold text-brand-orange;
+  }
+
+  .app__board-section {
+    @apply flex min-h-0 flex-1 flex-col rounded-xl bg-gray-100 px-8 py-6;
+  }
+
+  /* Controls */
+  .controls {
+    @apply flex gap-4;
+  }
+
+  .controls__toggle {
+    @apply flex min-w-[178px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-brand-orange px-10 py-5 text-xl font-bold text-white disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .controls__reset {
+    @apply flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-brand-orange bg-white px-10 py-5 text-xl font-bold text-brand-orange disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  /* NumberDisplay */
+  .number-display {
+    @apply flex aspect-square w-[312px] items-center justify-center rounded-full bg-white text-[10rem] font-bold text-brand-navy;
+  }
+
+  /* Board */
+  .board {
+    @apply flex h-full min-h-0 flex-col gap-1;
+  }
+
+  .board__header {
+    @apply flex shrink-0 items-center;
+  }
+
+  .board__title {
+    @apply text-2xl font-bold text-brand-navy;
+  }
+
+  .board__subtitle {
+    @apply text-xl text-gray-600;
+  }
+
+  .board__grid-container {
+    @apply min-h-0 flex-1;
+  }
+
+  .board__grid {
+    @apply grid h-full grid-cols-[repeat(15,minmax(0,1fr))] grid-rows-[repeat(5,minmax(0,1fr))] gap-1;
+  }
+
+  .board__cell {
+    @apply flex items-center justify-center rounded text-4xl font-bold;
+  }
+
+  .board__cell--current {
+    @apply bg-brand-orange text-white;
+  }
+
+  .board__cell--confirmed {
+    @apply bg-brand-orange/35 text-brand-navy;
+  }
+
+  .board__cell--undrawn {
+    @apply bg-transparent text-gray-400;
+  }
+}
